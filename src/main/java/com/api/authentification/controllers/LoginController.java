@@ -12,8 +12,10 @@ import com.api.authentification.dto.TokenDTO;
 import com.api.authentification.dto.UserDTO;
 import com.api.authentification.services.LoginService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Authentification")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
