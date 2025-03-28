@@ -13,6 +13,10 @@ import com.api.authentification.entities.Compte;
 import com.api.authentification.mapper.AuthMapper;
 import com.api.authentification.repositories.CompteRepository;
 
+/**
+ * Tests unitaires pour RegisterService.
+ * Vérifie que l'inscription fonctionne correctement et que les erreurs sont gérées.
+ */
 class RegisterServiceTest {
 
     private CompteRepository compteRepository;

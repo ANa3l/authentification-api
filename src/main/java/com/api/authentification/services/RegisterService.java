@@ -12,6 +12,10 @@ import com.api.authentification.repositories.CompteRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Service responsable de l'inscription d'un nouvel utilisateur.
+ * Il vérifie si l'identifiant est disponible puis enregistre un nouveau compte.
+ */
 @Service
 @RequiredArgsConstructor
 public class RegisterService {
@@ -19,6 +23,13 @@ public class RegisterService {
     private final CompteRepository compteRepository;
     private final AuthMapper authMapper;
 
+    /**
+     * Enregistre un nouvel utilisateur à partir des informations fournies.
+     *
+     * @param request les informations de l'utilisateur à créer (username, passwordHash)
+     * @return l'utilisateur nouvellement créé sous forme de UserDTO
+     * @throws ResponseStatusException si les données sont invalides ou le username déjà utilisé
+     */
     @Transactional
     public UserDTO register(UserDTO request) {
         if (request.getUsername() == null || request.getPasswordHash() == null) {
@@ -34,7 +45,6 @@ public class RegisterService {
             request.getPasswordHash()
         ));
 
-        // retourne précisément l'objet UserDTO comme précisé par Swagger
         return authMapper.toUserDTO(compte);
     }
 }

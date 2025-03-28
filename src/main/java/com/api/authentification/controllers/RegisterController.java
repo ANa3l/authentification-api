@@ -13,6 +13,10 @@ import com.api.authentification.services.RegisterService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Contrôleur responsable de l'enregistrement d'un nouvel utilisateur.
+ * Reçoit un username et un mot de passe, puis crée un compte.
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -21,6 +25,13 @@ public class RegisterController {
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     private final RegisterService registerService;
 
+    /**
+     * Endpoint POST /auth/register
+     * Crée un nouveau compte utilisateur.
+     *
+     * @param request les informations de l'utilisateur à enregistrer
+     * @return l'utilisateur créé ou une erreur
+     */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO request) {
         try {

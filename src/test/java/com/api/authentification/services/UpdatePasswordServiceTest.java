@@ -17,6 +17,10 @@ import com.api.authentification.entities.Compte;
 import com.api.authentification.mapper.AuthMapper;
 import com.api.authentification.repositories.CompteRepository;
 
+/**
+ * Tests unitaires pour UpdatePasswordService.
+ * Vérifie les différents cas de mise à jour de mot de passe (réussite, erreurs 403, 404, 400).
+ */
 class UpdatePasswordServiceTest {
 
     private CompteRepository compteRepository;
@@ -96,24 +100,19 @@ class UpdatePasswordServiceTest {
         String token = "Bearer validtoken";
         String jwt = "validtoken";
 
-        // Mock JWT pour retourner un identifiant valide
         when(jwtUtil.extractIdentifiant(jwt)).thenReturn("testuser");
 
-        // Mock repository pour retourner un utilisateur valide (important!)
         Compte compte = new Compte("testuser", "oldPassword");
         when(compteRepository.findById("testuser")).thenReturn(Optional.of(compte));
 
-        // Payload vide
         ChangePasswordPayloadDTO payload = new ChangePasswordPayloadDTO();
 
-        // Maintenant le test renverra une erreur 400 correctement (et pas 404)
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             updatePasswordService.updatePassword(token, payload);
         });
 
         assertEquals(400, exception.getStatusCode().value());
     }
-
 
     @Test
     void updatePassword_shouldThrowForbidden_whenTokenInvalid() {

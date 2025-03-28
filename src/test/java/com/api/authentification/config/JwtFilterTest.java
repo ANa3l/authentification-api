@@ -12,6 +12,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.api.authentification.controllers.TestController;
 
+/**
+ * Tests unitaires pour le filtre JWT (JwtFilter).
+ * Vérifie que les requêtes sans token passent et que les tokens révoqués sont bien refusés.
+ */
 @WebMvcTest
 @Import({JwtFilter.class, JwtUtil.class, TestSecurityConfig.class, TestController.class})
 class JwtFilterTest {
@@ -25,7 +29,7 @@ class JwtFilterTest {
     @Test
     void testRequestWithoutTokenShouldPass() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/any-endpoint"))
-               .andExpect(status().isOk()); // Suppose que /any-endpoint est public
+               .andExpect(status().isOk());
     }
 
     @Test
@@ -37,5 +41,4 @@ class JwtFilterTest {
                 .header("Authorization", "Bearer " + token))
                .andExpect(status().isUnauthorized());
     }
-
 }
