@@ -1,8 +1,13 @@
 package com.api.authentification.config;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests unitaires pour les méthodes de JwtUtil.
+ * Vérifie la génération, l'extraction et la validation des tokens JWT.
+ */
 class JwtUtilTest {
 
     JwtUtil jwtUtil = new JwtUtil();

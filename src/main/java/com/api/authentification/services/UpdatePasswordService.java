@@ -14,6 +14,10 @@ import com.api.authentification.repositories.CompteRepository;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Service permettant de mettre à jour le mot de passe d'un utilisateur authentifié.
+ * Le token JWT est utilisé pour identifier l'utilisateur et vérifier ses droits.
+ */
 @Service
 @RequiredArgsConstructor
 public class UpdatePasswordService {
@@ -22,6 +26,14 @@ public class UpdatePasswordService {
     private final JwtUtil jwtUtil;
     private final AuthMapper authMapper;
 
+    /**
+     * Met à jour le mot de passe de l'utilisateur authentifié.
+     *
+     * @param token le token JWT de l'utilisateur
+     * @param request les mots de passe actuels et nouveaux
+     * @return l'utilisateur mis à jour sous forme de UserDTO
+     * @throws ResponseStatusException si le token est invalide, les champs manquants ou le mot de passe incorrect
+     */
     @Transactional
     public UserDTO updatePassword(String token, ChangePasswordPayloadDTO request) {
 
@@ -39,7 +51,6 @@ public class UpdatePasswordService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Les champs de mot de passe ne peuvent pas être vides.");
         }
 
-        // Correction ici: Utiliser HttpStatus.FORBIDDEN conformément au swagger
         if (!request.getCurrentPassword().equals(compte.getMotDePasse())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Ancien mot de passe incorrect.");
         }
@@ -47,7 +58,6 @@ public class UpdatePasswordService {
         compte.setMotDePasse(request.getNewPassword());
         Compte compteMisAJour = compteRepository.save(compte);
 
-        // Retour précis de l'objet UserDTO comme demandé par Swagger
         return authMapper.toUserDTO(compteMisAJour);
     }
 }

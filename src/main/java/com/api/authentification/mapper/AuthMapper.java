@@ -8,6 +8,7 @@ import com.api.authentification.entities.Compte;
 
 /**
  * Mapper responsable de convertir entre les objets DTO et les entités de Compte.
+ * Facilite la séparation des couches entre API, service et base de données.
  */
 @Component
 public class AuthMapper {

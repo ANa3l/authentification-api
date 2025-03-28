@@ -15,6 +15,10 @@ import com.api.authentification.services.UpdatePasswordService;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Contrôleur permettant à un utilisateur de changer son mot de passe.
+ * L'utilisateur doit être authentifié via un token JWT.
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -23,6 +27,14 @@ public class UpdatePasswordController {
     private static final Logger logger = LoggerFactory.getLogger(UpdatePasswordController.class);
     private final UpdatePasswordService updatePasswordService;
 
+    /**
+     * Endpoint PUT /auth/register (devrait être renommé /update-password)
+     * Met à jour le mot de passe d'un utilisateur authentifié.
+     *
+     * @param token JWT dans l'en-tête Authorization
+     * @param request payload contenant l'ancien et le nouveau mot de passe
+     * @return l'utilisateur mis à jour ou une erreur
+     */
     @PutMapping("/register")
     public ResponseEntity<?> updatePassword(@RequestHeader("Authorization") String token,
                                             @RequestBody ChangePasswordPayloadDTO request) {

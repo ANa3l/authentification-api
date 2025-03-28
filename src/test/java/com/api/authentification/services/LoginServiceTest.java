@@ -17,12 +17,15 @@ import com.api.authentification.entities.Compte;
 import com.api.authentification.mapper.AuthMapper;
 import com.api.authentification.repositories.CompteRepository;
 
+/**
+ * Test unitaire pour le service LoginService.
+ * Vérifie que l'authentification renvoie un token JWT valide pour un utilisateur existant.
+ */
 class LoginServiceTest {
 
     private JwtUtil jwtUtil;
     private CompteRepository compteRepository;
     private AuthMapper authMapper;
-
     private LoginService loginService;
 
     @BeforeEach
