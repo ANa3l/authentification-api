@@ -1,13 +1,10 @@
 package com.api.authentification.services;
 
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.api.authentification.config.JwtUtil;
-import com.api.authentification.dto.TokenDTO;
 import com.api.authentification.dto.UserDTO;
 import com.api.authentification.entities.Compte;
 import com.api.authentification.mapper.AuthMapper;
@@ -17,28 +14,27 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class RegisterService {
 
-    private final JwtUtil jwtUtil;
     private final CompteRepository compteRepository;
     private final AuthMapper authMapper;
 
-    public TokenDTO authenticate(UserDTO request) {
+    @Transactional
+    public UserDTO register(UserDTO request) {
         if (request.getUsername() == null || request.getPasswordHash() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username et passwordHash requis.");
         }
 
-        Optional<Compte> compte = compteRepository.findById(request.getUsername());
-
-        if (compte.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Utilisateur non trouvé.");
+        if (compteRepository.existsById(request.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cet identifiant est déjà utilisé.");
         }
 
-        if (!request.getPasswordHash().equals(compte.get().getMotDePasse())) {
-        	throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Mot de passe incorrect.");
-        }
+        Compte compte = compteRepository.save(new Compte(
+            request.getUsername(),
+            request.getPasswordHash()
+        ));
 
-        String token = jwtUtil.generateToken(compte.get().getId());
-        return authMapper.toDto(token);
+        // retourne précisément l'objet UserDTO comme précisé par Swagger
+        return authMapper.toUserDTO(compte);
     }
 }
