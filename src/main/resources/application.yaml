@@ -1,0 +1,39 @@
+server:
+  port: 8081
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
+      ignore:
+        urls:
+          - /swagger-ui/**
+          - /api-docs/**
+          - /v3/api-docs/**
+          - /openapi/**
+          - /swagger-resources/**
+          - /any-endpoint/**
+  datasource:
+    url: jdbc:mariadb://obiwan.univ-brest.fr:3306/e21805053_db2
+    username: e21805053sql
+    password: RdzxNgyB
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Configuration Springdoc OpenAPI pour Swagger
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: Authentification API
+        url: /openapi/authentification_api.yaml
