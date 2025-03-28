@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.api.authentification.config.JwtUtil;
-import com.api.authentification.dto.AuthRequest;
 import com.api.authentification.dto.TokenDTO;
+import com.api.authentification.dto.UserDTO;
 import com.api.authentification.entities.Compte;
 import com.api.authentification.mapper.AuthMapper;
 import com.api.authentification.repositories.CompteRepository;
@@ -36,7 +36,7 @@ class LoginServiceTest {
 
     @Test
     void authenticate_shouldReturnTokenDTO_whenCredentialsAreValid() {
-        AuthRequest request = new AuthRequest();
+        UserDTO request = new UserDTO();
         request.setUsername("user1");
         request.setPasswordHash("secret");
 
