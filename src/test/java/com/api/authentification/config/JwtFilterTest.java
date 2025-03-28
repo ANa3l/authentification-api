@@ -10,8 +10,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@WebMvcTest // Simule un environnement WebMVC sans démarrer tout Spring
-@Import({JwtFilter.class, JwtUtil.class}) // Injecte tes composants de config
+import com.api.authentification.controllers.TestController;
+
+@WebMvcTest
+@Import({JwtFilter.class, JwtUtil.class, TestSecurityConfig.class, TestController.class})
 class JwtFilterTest {
 
     @Autowired
@@ -36,5 +38,4 @@ class JwtFilterTest {
                .andExpect(status().isUnauthorized());
     }
 
-    // Tu peux ajouter un test avec un vrai token simulé si tu mocks jwtUtil.validateToken/token extraction.
 }
