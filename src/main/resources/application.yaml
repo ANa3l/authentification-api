@@ -1,5 +1,5 @@
 server:
-  port: 8081
+    port: 8081
 spring:
   security:
     user:
@@ -12,16 +12,20 @@ spring:
           - /v3/api-docs/**
           - /openapi/**
           - /swagger-resources/**
-          - /any-endpoint/**
   datasource:
-    url: jdbc:mariadb://obiwan.univ-brest.fr:3306/e21805053_db2
-    username: e21805053sql
-    password: RdzxNgyB
+    url: ${SPRING_DATASOURCE_URL}
+    username: userAPI
+    password: userAPI123
+  sql:
+    init:
+      mode: always
+      continue-on-error: true
   jpa:
     database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: update
     show-sql: true
+    defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true
